@@ -24,9 +24,11 @@ To create a State class:
 
 * Define the data model that your state will hold
 * Extend `RxoState`
+
   ```typescript
   npm i rxo-state
   ```
+
 * Call super() in the constructor and pass in the initial value for the state.
 * Define your mutation types
 * Implement the mutate method
