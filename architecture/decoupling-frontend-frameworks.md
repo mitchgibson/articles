@@ -16,3 +16,4 @@ Components are responsible for only two things:
 * Output current state to the user
 * Accept state modifications from the user
 
+To accomplish this, we need a way for the component to read the current application state and to modify the application state.
