@@ -424,7 +424,7 @@ export class WidgetComponent {
 }
 ```
 
-> :warning: **Warning:** The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application. <br /><br/>If you don’t unsubscribe, every time the same component is create, a new subscription will be created and the old one is still running. So you will get a lot of unnecessary subscription callbacks executed.<br/><br/>This will negatively impact performance and could be a source of unexpected behaviour.
+> :warning: **Warning:** The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application. <br /><br />If you don’t unsubscribe, every time the same component is create, a new subscription will be created and the old one is still running. So you will get a lot of unnecessary subscription callbacks executed.<br/><br />This will negatively impact performance and could be a source of unexpected behaviour.
 
 #### Using observe() with Angular’s “async” pipe
 
