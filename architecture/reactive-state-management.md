@@ -4,23 +4,15 @@ Angular state management is implemented using classes (State class) that extend 
 
 ## Overview
 
-The State class defines the mutations available
-
-Components, services, and other structures can use the observe and observeProperty methods to listen for changes on the state and update themselves as required based on each new state when notified.
-
-The peek method is available in State classes to synchronously access the current state.
-
-When a state requires updating, for example the user requested page 2 of a list, the component providing access to change the page calls the mutate method of the associated State class to request an update to the state.
-
-The State class accepts the mutation request and initiates any logic required to perform the mutation.
-
-Mutations can be as simple as passing a boolean value (i.e changing from light mode to dark mode), or as complicated as accepting an object defining the action for the state to make and the data payload required for that action.
-
-The scope of a State class can be small or large. It can be scoped to a few components (or even one) that implement a feature, or scoped to the entire application. Generally, most State classes will be tied to a feature. For example, the InProgressListState in Check, which handles the state of the list of in progress checks. It accepts delete, add, list, more, filter, etc.
-
-A State class to manage the application state, might contain the user, org, jwt, last page location, etc.
-
-The primary effect of a State class is to remove logic that updates the state of a feature out of components (or other structures) and into itself. The means that there is only one place where changes of state occur, instead of being scattered around various constructs. The means that structures, like components, can become very simple. Components are reduced to only two purposes, presenting the current state of the feature/app data to the user and to accept input from the user, that is later conveyed to update the state of the feature/app.
+* The State class defines the mutations available
+* Components, services, and other structures can use the `observe` and `observeProperty` methods to listen for changes on the state and update themselves as required based on each new state when notified.
+* The `peek` method is available in State classes to synchronously access the current state.
+* When a state requires updating, for example the user requested page 2 of a list, the component providing access to change the page calls the `mutate` method of the associated State class to request an update to the state.
+* The State class accepts the mutation request and initiates any logic required to perform the mutation.
+* Mutations can be as simple as passing a boolean value (i.e changing from light mode to dark mode), or as complicated as accepting an object defining the action for the state to make and the data payload required for that action.
+* The scope of a State class can be small or large. It can be scoped to a few components (or even one) that implement a feature, or scoped to the entire application. Generally, most State classes will be tied to a feature. For example, the InProgressListState in Check, which handles the state of the list of in progress checks. It accepts delete, add, list, more, filter, etc.
+* A State class to manage the application state, might contain the user, org, jwt, last page location, etc.
+* The primary effect of a State class is to remove logic that updates the state of a feature out of components (or other structures) and into itself. The means that there is only one place where changes of state occur, instead of being scattered around various constructs. The means that structures, like components, can become very simple. Components are reduced to only two purposes, presenting the current state of the feature/app data to the user and to accept input from the user, that is later conveyed to update the state of the feature/app.
 
 ![image](https://github.com/mitchgibson/articles/assets/6553496/b30d24e5-fbf0-44a0-8b4a-fb5913cc2796)
 
