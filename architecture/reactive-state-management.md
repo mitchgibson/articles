@@ -29,7 +29,15 @@ To create a State class:
   npm i rxo-state
   ```
 
-* Call super() in the constructor and pass in the initial value for the state.
+* Call `super()` in the constructor and pass in the initial value for the state.
+
+``` typescript
+super({
+  myPropery: 'some initial data')
+  }
+);
+```
+
 * Define your mutation types
 * Implement the mutate method
 * Emit events (optional)
