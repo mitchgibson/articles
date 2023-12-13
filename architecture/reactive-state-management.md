@@ -31,31 +31,36 @@ To create a State class:
 
 * Call `super()` in the constructor and pass in the initial value for the state.
 
-``` typescript
-super({
-  myPropery: 'some initial data')
+  ``` typescript
+  constructor() {
+    super({
+      myPropery: 'some initial data')
+      }
+    );
   }
-);
-```
+  ```
 
 * Define your mutation types
-* Implement the mutate method
+* Implement the `mutate` method
 * Emit events (optional)
 
 ### Define the data model
 
 The shape of the data held can be anything from a simple primitive value, like a count integer, to a complex class or json object. Naming convention of the model data type is fairly loose. But I do recommend suffixing it “Model” or “Data”.
 
-Simple model example
+#### Simple model example
 
 Here is an example of a very simple model. This model is just a boolean value. In this case, defining the type is entirely optional, since it’s just assigning the boolean type to a custom symbol.
 
+```typescript
 export type VisibleModel = boolean;
+```
 
-Complex model example
+#### Complex model example
 
 Here is an example of a complex json object model. This model holds information for loading and error states, and the data when the model is in a successful state.
 
+```typescript
 export type WidgetStateModel = {
   loading: boolean;
   error: Error | undefined;
@@ -65,8 +70,9 @@ export type WidgetStateModel = {
     description: string;
   }[];
 };
+```
 
-Extend the RxoState abstract class
+### Extend the RxoState abstract class
 
 The RxoState class provides functionality to manage the state and provides common interface for all state classes. This maintains a consistent pattern and provides some powerful methods for interacting with the State class.
 
