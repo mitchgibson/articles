@@ -1,3 +1,5 @@
+# Reactive State Management
+
 This document explains the patterns and best practices we put in place to manage state within our Angular application. Angular refers to new Angular, not our legacy AngularJs projects (referred to as AngularJs).
 
 Angular state management is implemented using classes (State class) that extend the RxoState abstract class. This class provides all the features needed to implement state mutations and accessors for listening for state changes and events emitted during mutation events. RxoState requires that inheriting classes implement a mutate method. The State class defines the logic of handling mutation requests.
@@ -20,19 +22,17 @@ Angular state management is implemented using classes (State class) that extend 
 
 To create a State class:
 
-Define the data model that your state will hold
+* Define the data model that your state will hold
+* Extend `RxoState`
+  ```typescript
+  npm i rxo-state
+  ```
+* Call super() in the constructor and pass in the initial value for the state.
+* Define your mutation types
+* Implement the mutate method
+* Emit events (optional)
 
-Extend RxoState (location in our Core library)
-
-Call super() in the constructor and pass in the initial value for the state.
-
-Define your mutation types
-
-Implement the mutate method
-
-Emit events (optional)
-
-Define the data model
+### Define the data model
 
 The shape of the data held can be anything from a simple primitive value, like a count integer, to a complex class or json object. Naming convention of the model data type is fairly loose. But I do recommend suffixing it “Model” or “Data”.
 
