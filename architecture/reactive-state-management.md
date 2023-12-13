@@ -393,20 +393,18 @@ export class WidgetState extends RxoState<WidgetStateModel> {
 
 Here are some example of how to use the various features of the state class.
 
-observe - subscribe to changes to the state
+* observe - subscribe to changes to the state
+* observeProperty - subscribe to changes when a specific property on the state changes
+* listen - subscribe to emitted events
+* peek - get the current value of the state (synchronously)
 
-observeProperty - subscribe to changes when a specific property on the state changes
+### Using observe()
 
-listen - subscribe to emitted events
-
-peek - get the current value of the state (synchronously)
-
-Using observe()
-
-The observe method returns an observable that will execute the provided callback whenever the state is updated. The new state value is returned in the callback’s params.
+The `observe` method returns an observable that will execute the provided callback whenever the state is updated. The new state value is returned in the callback’s params.
 
 Here is an example of its usage inside an Angular component.
 
+```typescript
 import { Component } from "@angular/core";
 import { WidgetState, WidgetStateModel } from "./widget.state";
 import { Subscription } from "rxjs";
@@ -424,8 +422,9 @@ export class WidgetComponent {
     });
   constructor(private state:WidgetState) {}
 }
+```
 
-The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application.
+> :warning: **Warning:** The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application. 
 
 If you don’t unsubscribe, every time the same component is create, a new subscription will be created and the old one is still running. So you will get a lot of unnecessary subscription callbacks executed.
 
