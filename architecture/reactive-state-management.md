@@ -424,49 +424,59 @@ export class WidgetComponent {
 }
 ```
 
-> :warning: **Warning:** The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application. <br />If you don’t unsubscribe, every time the same component is create, a new subscription will be created and the old one is still running. So you will get a lot of unnecessary subscription callbacks executed.<br/>This will negatively impact performance and could be a source of unexpected behaviour.
+> :warning: **Warning:** The subscribe method on the observable returns a Subscription object. The Subscription can be used to unsubscribe from the observable after the component has been destroyed. It is important that subscriptions are unsubscribe from in components and services that are not intended to exist for the lifetime of the application. <br /><br/>If you don’t unsubscribe, every time the same component is create, a new subscription will be created and the old one is still running. So you will get a lot of unnecessary subscription callbacks executed.<br/><br/>This will negatively impact performance and could be a source of unexpected behaviour.
 
-Using observe() with Angular’s “async” pipe
+#### Using observe() with Angular’s “async” pipe
 
-Another convenient way to observe a state’s changes, one that doesn’t require unsubscribing, is the use of Angular’s async pipe. 
+Another convenient way to observe a state’s changes, one that doesn’t require unsubscribing, is the use of Angular’s `async` pipe. 
 
-The async pipe is used in the Angular template and performs the subscribe and unsubscribe for you. Here is an example.
+The `async` pipe is used in the Angular template and performs the subscribe and unsubscribe for you. Here is an example.
 
+```html
 <div *ngIf=(state.observe() | async).loading">Loading...</div>
+```
 
-In this example, the async pipe is applied to state.observe(). It subscribes for changes and whenever a new value is received, it returns the value. We then target the loading property for the final value of the *ngIf. The effect is, when the state’s loading value is true, “Loading…” will be displayed, otherwise it will not.
+In this example, the `async` pipe is applied to `state.observe()`. It subscribes for changes and whenever a new value is received, it returns the value. We then target the `loading` property for the final value of the `*ngIf`. The effect is, when the state’s loading value is true, “Loading…” will be displayed, otherwise it will not.
 
-Using observeProperty()
+#### Using observeProperty()
 
-The observeProperty method is a convenience method to target a specific property when the state’s model is in object form. It can be used the same way as the observe method, except it takes a string parameter in dot notation that defines the path of the object within the state.
+The `observeProperty` method is a convenience method to target a specific property when the state’s model is in object form. It can be used the same way as the `observe` method, except it takes a string parameter in dot notation that defines the path of the object within the state.
 
-For example, to target the error property:
+For example, to target the `error` property:
 
+```typescript
 this.state.observeProperty('error').subscribe((err) => { ... });
+```
 
-This will return changes only when the error property has changed.
+This will return changes only when the `error` property has changed.
 
 You could also observe a specific object in an array on the state:
 
+```typescript
 this.state.observeProperty('data[5].name').subscribe((name:string) => { ... });
+```
 
 This will observe the name property on the data property of state at index 5.
 
-Using listen()
+#### Using listen()
 
-The listen method is used by passing the name of the event you want to listen. It returns an observable that you can subscribe to execute a callback whenever an event occurs:
+The `listen` method is used by passing the name of the event you want to listen. It returns an observable that you can subscribe to execute a callback whenever an event occurs:
 
+```typescript
 this.deleteSuccess:Subscription = 
   this.state.listen(DELETE_SUCCESS).subscribe((eventData) => {
     ...
   });
+```
 
-The event data can be nothing or whatever is passed into the emit method when called from the State class when the event emitted.
+The event data can be nothing or whatever is passed into the `emit` method when called from the State class when the event emitted.
 
-Remember to unsubscribe from your observable when using in structures that are not expected to live the lifetime of your application. This will prevent unexpected behaviour and performance issues.
+> :warning: **Warning:** Remember to unsubscribe from your observable when using in structures that are not expected to live the lifetime of your application. This will prevent unexpected behaviour and performance issues.
 
-Using peek()
+#### Using peek()
 
-The peek method is used to observe the State class’s value at that moment in time (synchronously). 
+The `peek` method is used to observe the State class’s value at that moment in time (synchronously). 
 
+```typescript
 const curState = this.state.peek();
+```
