@@ -107,18 +107,15 @@ export class WidgetState extends RxoState<WidgetStateModel> {
 
 Before you get to writing the `mutate` method, you will want to define at least one of your mutation types. If you want to have the ability to add more mutations later, I recommend defining these types as a json object with an action property that defines the `action` you want to perform to mutate the state.
 
-> :information_source: **Note:** It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported.
-
-Mutation Types should be defined in the same file as the State class. There may be cases where it should be defined elsewhere, so this is not a hard-set rule.
+> :information_source: **Note:** It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported. Mutation Types should be defined in the same file as the State class. There may be cases where it should be defined elsewhere, so this is not a hard-set rule.
 
 This example defines three mutation types, one for each action: 
 
-ListMutation - request the state to load a list of widgets
+* ListMutation - request the state to load a list of widgets
+* DeleteMutation - requests the state remove an item with uuid matching provided uuid
+* AddMutation - request the state to add an item to the list
 
-DeleteMutation - requests the state remove an item with uuid matching provided uuid
-
-AddMutation - request the state to add an item to the list
-
+```typescript
 type ListMutation = {
   action: 'list';
 };
@@ -138,22 +135,26 @@ type AddMutation = {
 };
 
 type Mutation = ListMutation | DeleteMutation | AddMutation;
+```
 
-As a final step, we create the Mutation type that can be of any of our defined Mutation Types. Defining mutations this way, allows us to guard against using an incorrect Mutation definition. For example, you will get type errors if you passed this object to the mutate method because the add action requires an item, not a uuid:
+As a final step, we create the `Mutation` type that can be of any of our defined Mutation Types. Defining mutations this way, allows us to guard against using an incorrect Mutation definition. For example, you will get type errors if you passed this object to the `mutate` method because the `add` action requires an item, not a uuid:
 
+```typescript
 {
   action: 'add',
   uuid: 'abc-123'
 }
+```
 
-Implement the mutate method
+### Implement the mutate method
 
-The mutate method is used to by other objects to request the State class to make a change its state in some way. We pass a Mutation to the mutate method to instruct how we want the state to change. The State class validates the request and mutates its state according to the request. It then notifies any listeners of the change of state by calling the next method.
+The `mutate` method is used to by other objects to request the State class to make a change its state in some way. We pass a Mutation to the `mutate` method to instruct how we want the state to change. The State class validates the request and mutates its state according to the request. It then notifies any listeners of the change of state by calling the `next` method.
 
-The state can also emit any extra events needed during this process. Events can be emitted with the emit method and can be listened for with the listen method.
+The state can also emit any extra events needed during this process. Events can be emitted with the `emit` method and can be listened for with the `listen` method.
 
-In this example, we would put the logic for each type of mutation in their own handler function. Handler functions accept the mutation request and updates the state as necessary. Inside the handler functions, the next method is called with the updated state that was achieve from the logic in the handler. This updates the internal state data to the new value and notifies any subscribers of the updated state.
+In this example, we would put the logic for each type of mutation in their own handler function. Handler functions accept the mutation request and updates the state as necessary. Inside the handler functions, the `next` method is called with the updated state that was achieve from the logic in the handler. This updates the internal state data to the new value and notifies any subscribers of the updated state.
 
+```typescript
 public async mutate(mutation:Mutation): Promise<void> {
   switch (mutation.action) {
     case 'list':
@@ -167,9 +168,11 @@ public async mutate(mutation:Mutation): Promise<void> {
       break;
   }
 }
+```
 
-List handler
+#### List handler
 
+```typescript
 private async list(): Promise<void> {
   this.next({
     loading: true,
@@ -191,9 +194,11 @@ private async list(): Promise<void> {
     });
   }
 }
+```
 
-Delete handler
+#### Delete handler
 
+```typescript
 private async remove(mutation: DeleteMutation):  Promise<void>  {
   try {
     await this.widgetApi.delete(mutation.uuid);
@@ -205,11 +210,13 @@ private async remove(mutation: DeleteMutation):  Promise<void>  {
     console.error(err);
   }
 }
+```
 
-The use of ...this.peek() is a convenient way to preserve the existing state values. Only the data property is set to a new value.
+> :information_source: **Note:** The use of ...this.peek() is a convenient way to preserve the existing state values. Only the data property is set to a new value.
 
-Add handler
+#### Add handler
 
+```typescript
 private async add(mutation: AddMutation): Promise<void> {
   try {
     await this.widgetApi.add(mutation.item);
@@ -225,16 +232,20 @@ private async add(mutation: AddMutation): Promise<void> {
     });
   }
 }
+```
 
-Emitting Events
+### Emitting Events
 
 The State class can emit events of any type whenever it needs to. When creating an event, it’s good practice to define the event name as a const in the same file as the state.
 
+```typescript
 export const DELETE_SUCCESS = 'delete-success';
 export const DELETE_FAIL = 'delete-fail';
+```
 
 For example, we can emit a delete event. This event could get picked up by a global toast service to display a toast informing the user that the item was deleted. We could also add a failed delete event for a failure toast.
 
+```typescript
 private async remove(mutation: DeleteMutation):  Promise<void>  {
   try {
     await this.widgetApi.delete(mutation.uuid);
@@ -251,11 +262,13 @@ private async remove(mutation: DeleteMutation):  Promise<void>  {
     this.emit(DELETE_SUCCESS, mutation.uuid);
   }
 }
+```
 
-The Complete State Class
+### The Complete State Class
 
 The complete state class might look like this:
 
+```typescript
 import { Injectable } from '@angular/core';
 import { RxoState } from '@itc-fe/core';
 import { WidgetApiService } from './widget.api.service';
@@ -374,9 +387,9 @@ export class WidgetState extends RxoState<WidgetStateModel> {
     }
   }
 }
+```
 
-
-Using the State Class
+## Using the State Class
 
 Here are some example of how to use the various features of the state class.
 
