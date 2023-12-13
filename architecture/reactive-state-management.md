@@ -89,8 +89,9 @@ export class WidgetState extends RxoState<WidgetStateModel> {}
 
 ### Call super()
 
-The RxoState requires that you provide it an initial state. To do this, pass an initial value that conforms to your Model’s type into the super method of your State class’s constructor. The State class’s constructor is also an opportunity for any injections you may need, for example an api service used to fetch data from a server.
+The RxoState requires that you provide it an initial state. To do this, pass an initial value that conforms to your Model’s type into the `super` method of your State class’s constructor. The State class’s constructor is also an opportunity for any injections you may need, for example an api service used to fetch data from a server.
 
+```typescript
 export class WidgetState extends RxoState<WidgetStateModel> {
   constructor(private widgetApi: WidgetApiService) {
     super({
@@ -100,12 +101,13 @@ export class WidgetState extends RxoState<WidgetStateModel> {
     });
   }
 }
+```
 
-Define Mutation Types
+### Define Mutation Types
 
-Before you get to writing the mutate method, you will want to define at least one of your mutation types. If you want to have the ability to add more mutations later, I recommend defining these types as a json object with an action property that defines the action you want to perform to mutate the state.
+Before you get to writing the `mutate` method, you will want to define at least one of your mutation types. If you want to have the ability to add more mutations later, I recommend defining these types as a json object with an action property that defines the `action` you want to perform to mutate the state.
 
-It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported.
+> :information_source: **Note:** It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported.
 
 Mutation Types should be defined in the same file as the State class. There may be cases where it should be defined elsewhere, so this is not a hard-set rule.
 
