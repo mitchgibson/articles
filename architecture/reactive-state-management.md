@@ -76,16 +76,18 @@ export type WidgetStateModel = {
 
 The RxoState class provides functionality to manage the state and provides common interface for all state classes. This maintains a consistent pattern and provides some powerful methods for interacting with the State class.
 
-In this example, Angular’s Injectable decorator is used to make the state available for dependency injection. This is the same pattern as with our services. The important distinctions here are the use of the term "State" in the class name, the extension of RxoState, and the passing of the model definition to RxoState. The passing of WidgetStateModel provides typings when using methods like observe and peek.
+In this example, Angular’s `Injectable` decorator is used to make the state available for dependency injection. This is the same pattern as with our services. The important distinctions here are the use of the term "State" in the class name, the extension of RxoState, and the passing of the model definition to RxoState. The passing of `WidgetStateModel` provides typings when using methods like `observe` and `peek`.
 
-You may notice the use of provideIn: ‘root' passed into the Injectable decorator. This is not required, but is most often the case. provideIn: ‘root' makes the class a singleton within Angular, meaning only one instance of the state can exist. It is rare, but there may be cases where you don’t want this set, for example, if the state is scoped to a set of components that may be reused in different parts of the app and you don’t want all instances of the set of components to share the same state.
+You may notice the use of `provideIn: ‘root'` passed into the `Injectable` decorator. This is not required, but is most often the case. `provideIn: ‘root'` makes the class a singleton within Angular, meaning only one instance of the state can exist. It is rare, but there may be cases where you don’t want this set, for example, if the state is scoped to a set of components that may be reused in different parts of the app and you don’t want all instances of the set of components to share the same state.
 
+```typescript
 @Injectable({
   providedIn: 'root',
 })
 export class WidgetState extends RxoState<WidgetStateModel> {}
+```
 
-Call super()
+### Call super()
 
 The RxoState requires that you provide it an initial state. To do this, pass an initial value that conforms to your Model’s type into the super method of your State class’s constructor. The State class’s constructor is also an opportunity for any injections you may need, for example an api service used to fetch data from a server.
 
