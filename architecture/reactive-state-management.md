@@ -107,7 +107,7 @@ export class WidgetState extends RxoState<WidgetStateModel> {
 
 Before you get to writing the `mutate` method, you will want to define at least one of your mutation types. If you want to have the ability to add more mutations later, I recommend defining these types as a json object with an action property that defines the `action` you want to perform to mutate the state.
 
-> :information_source: **Note:** It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported. Mutation Types should be defined in the same file as the State class. There may be cases where it should be defined elsewhere, so this is not a hard-set rule.
+> :information_source: **Note:** It is not usually necessary to export mutation types because they will get exposed when using the mutate method. But if you want to expose them for use in other structures, they can be exported.<br /><br />Mutation Types should be defined in the same file as the State class. There may be cases where it should be defined elsewhere, so this is not a hard-set rule.
 
 This example defines three mutation types, one for each action: 
 
